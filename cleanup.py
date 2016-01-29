@@ -11,19 +11,24 @@ def cleanup(query):
     s = urllib.unquote_plus(query)
     s = ' '.join(s.split(','))
     s = ' '.join(s.split())
+    s = s.lower()
     return s
 
 
 def process(inputfile, outputfile, n):
+    queries_set = set()
     queries = []
     with open(inputfile) as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             if n == 0:
                 break
-            n -= 1
             query = cleanup(row[1])
+            if query in queries_set:
+                continue
+            queries_set.add(query)
             queries.append(query)
+            n -= 1
 
     with open(outputfile, 'w') as f:
         for query in queries:
