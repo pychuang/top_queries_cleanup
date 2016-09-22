@@ -10,11 +10,13 @@ import urllib
 
 def cleanup(query):
     s = urllib.unquote_plus(query)
+    s = s.lower()
     s = ' '.join(s.split(','))
     s = ' '.join(s.split('"'))
-    s  = re.sub(r"'[^Ss]", '', s)
+    s = ' '.join(s.split(';'))
+    s  = re.sub(r"'([^s]|$)", r'\1', s)
+    s  = re.sub(r"(^|\D)\.+", r"\1 ", s)
     s = ' '.join(s.split())
-    s = s.lower()
     return s
 
 
