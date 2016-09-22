@@ -4,12 +4,15 @@ from __future__ import print_function
 
 import argparse
 import csv
+import re
 import urllib
 
 
 def cleanup(query):
     s = urllib.unquote_plus(query)
     s = ' '.join(s.split(','))
+    s = ' '.join(s.split('"'))
+    s  = re.sub(r"'[^Ss]", '', s)
     s = ' '.join(s.split())
     s = s.lower()
     return s
